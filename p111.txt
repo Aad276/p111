@@ -1,0 +1,41 @@
+import csv
+import statistics
+import random
+import plotly.figure_factory as ff
+import plotly.graph_objects as go
+import pandas as pd
+
+
+df = pd.read_csv("sample_3.csv")
+data = df["reading_time"].tolist()
+
+mean = statistics.mean(data)
+standard_deviation= statistics.stdev(data)
+
+def mean1(number):
+    dataset= []
+    for i in range(0, number):
+        random_index = random.randint(0,len(data)-1)
+        value = data[random_index]
+        dataset.append(value)
+    mean2 = statistics.mean(dataset)
+    print("Sample mean =", mean2)
+    return mean2
+
+
+
+# population mean - sample mean /standard deviation
+
+
+print(mean)
+print(standard_deviation)
+sample_mean = mean1(30)
+print(sample_mean)
+
+z_score = (mean - sample_mean)/standard_deviation
+
+print("The z_score =", z_score)
+
+fig = ff.create_distplot([data],["readin_time"],show_hist=False)
+fig.add_trace(go.Scatter(x=[mean, mean],y=[0,0.17],mode="lines",name="MEAN"))
+fig.show()
